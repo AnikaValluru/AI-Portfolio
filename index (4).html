@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anika Valluru — AI Forward Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080E1A;
+      --bg2: #0D1526;
+      --bg3: #111D33;
+      --surface: #162038;
+      --border: rgba(56, 189, 248, 0.12);
+      --cyan: #38BDF8;
+      --cyan-dim: rgba(56, 189, 248, 0.15);
+      --cyan-glow: rgba(56, 189, 248, 0.4);
+      --teal: #2DD4BF;
+      --white: #F0F6FF;
+      --muted: #7A9BB5;
+      --text: #CBD5E1;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 3rem;
+      background: rgba(8, 14, 26, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--cyan); }
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav a {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--cyan); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute;
+      top: -10%; left: -5%;
+      width: 60vw; height: 60vw;
+      background: radial-gradient(ellipse, rgba(56,189,248,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-glow-2 {
+      position: absolute;
+      bottom: 10%; right: -10%;
+      width: 40vw; height: 40vw;
+      background: radial-gradient(ellipse, rgba(45,212,191,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-photo-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
+    }
+    .hero-photo {
+      width: 240px; height: 300px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+    .hero-photo::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(56,189,248,0.07), transparent 60%);
+      pointer-events: none; z-index: 1;
+    }
+    .hero-photo-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.6rem; color: var(--muted); text-align: center; padding: 1.5rem;
+    }
+    .hero-photo-placeholder .ph-icon { font-size: 2.5rem; opacity: 0.35; }
+    .hero-photo-placeholder p {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.45; line-height: 1.6;
+    }
+    .hero-name-tag {
+      font-family: var(--font-display); font-size: 0.88rem;
+      font-weight: 700; color: var(--white); letter-spacing: 0.01em;
+    }
+    .hero-role-tag {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    @media (max-width: 900px) {
+      .hero-content { grid-template-columns: 1fr; }
+      .hero-photo-col { order: -1; }
+      .hero-photo { width: 160px; height: 200px; }
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--cyan);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      opacity: 0; animation: fadeUp 0.6s 0.2s forwards;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block; width: 2rem; height: 1px;
+      background: var(--cyan);
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+    }
+    h1 .accent { color: var(--cyan); }
+    .hero-sub {
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 500; }
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.7s 0.65s forwards;
+    }
+    .btn-primary {
+      padding: 0.85rem 2rem;
+      background: var(--cyan);
+      color: #080E1A;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      border: none; border-radius: 4px;
+      cursor: pointer; text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--cyan-glow);
+    }
+    .btn-ghost {
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer; text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .hero-stat-row {
+      display: flex; gap: 3rem; margin-top: 4rem;
+      opacity: 0; animation: fadeUp 0.7s 0.8s forwards;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat { }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .stat-num span { color: var(--cyan); }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 0.15rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 6rem 3rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--cyan);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1; max-width: 3rem; height: 1px;
+      background: var(--cyan);
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+      margin-top: 3rem;
+    }
+    .about-text p {
+      color: var(--text);
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .about-text p strong { color: var(--white); font-weight: 500; }
+    .about-text p .highlight { color: var(--cyan); }
+    .about-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .about-card:hover {
+      border-color: rgba(56,189,248,0.35);
+      transform: translateX(4px);
+    }
+    .card-icon {
+      font-size: 1.4rem;
+      width: 2.5rem; height: 2.5rem;
+      background: var(--cyan-dim);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ─── PROJECTS ─── */
+    #projects { background: var(--bg); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .project-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(56,189,248,0.4);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .project-card.featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .project-visual {
+      background: var(--surface);
+      min-height: 220px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--cyan-dim), transparent 60%);
+    }
+    .project-visual .proj-icon { position: relative; z-index: 1; }
+    .project-card.featured .project-visual { min-height: 100%; border-radius: 0; }
+    .project-body { padding: 2rem; display: flex; flex-direction: column; flex: 1; }
+    .project-tag {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--cyan-dim);
+      padding: 0.25rem 0.75rem;
+      border-radius: 3px;
+      margin-bottom: 1rem;
+      width: fit-content;
+    }
+    .project-body h3 { margin-bottom: 0.6rem; }
+    .project-body p {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 1.5rem;
+    }
+    .tech-stack {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .tech-pill {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.65rem;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+    .project-link {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--cyan);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 0.5rem;
+      letter-spacing: 0.05em;
+      transition: gap 0.2s;
+      width: fit-content;
+    }
+    .project-link:hover { gap: 0.75rem; }
+
+    .projects-mini {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .mini-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .mini-card:hover {
+      border-color: rgba(56,189,248,0.3);
+      transform: translateY(-3px);
+    }
+    .mini-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .mini-card h4 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .mini-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+    /* ─── SKILLS ─── */
+    #skills { background: var(--bg2); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem;
+    }
+    .skill-group-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag {
+      font-size: 0.8rem;
+      color: var(--text);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill-tag:hover { border-color: var(--cyan); color: var(--cyan); }
+    .skill-tag.learning {
+      border-color: rgba(45,212,191,0.3);
+      color: var(--teal);
+    }
+
+    /* ─── EXPERIENCE ─── */
+    #experience { background: var(--bg); }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 3rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-meta { }
+    .exp-date {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.3rem;
+    }
+    .exp-company {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+    .exp-role {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+    .exp-content h3 { margin-bottom: 0.75rem; font-size: 1.1rem; }
+    .exp-content p {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+    .exp-badge {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: #FCD34D;
+      background: rgba(252,211,77,0.1);
+      border: 1px solid rgba(252,211,77,0.25);
+      padding: 0.25rem 0.7rem;
+      border-radius: 3px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── CERTS ─── */
+    .cert-row {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .cert-chip {
+      display: flex; align-items: center; gap: 0.6rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.7rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .cert-chip .cert-icon { font-size: 1.1rem; }
+
+    /* ─── CONTACT ─── */
+    #contact { background: var(--bg2); }
+    .contact-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contact-inner h2 { margin-bottom: 1rem; }
+    .contact-inner p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .contact-links {
+      display: flex; justify-content: center;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.85rem 1.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .contact-link:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    footer p span { color: var(--cyan); }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 3rem;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { gap: 1.5rem; }
+      #hero { padding: 7rem 1.5rem 4rem; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      .project-card.featured .project-visual { min-height: 180px; }
+      .projects-mini { grid-template-columns: 1fr 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .hero-stat-row { gap: 2rem; }
+    }
+    @media (max-width: 600px) {
+      nav ul { display: none; }
+      .projects-mini { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-logo">Anika<span>.</span>V</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-eyebrow">AI Forward Engineer · Prompt Engineer</div>
+      <h1><span class="accent">Anika Valluru.</span></h1>
+      <p class="hero-sub">
+        IT + AI student at NJIT pursuing my M.S. in Artificial Intelligence.
+        I bridge <strong>business problems</strong> and <strong>AI solutions</strong> — from CRM automation to data-driven decision tools.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">See My Work →</a>
+        <a href="https://github.com/AnikaValluru" target="_blank" class="btn-ghost">GitHub</a>
+        <a href="https://www.linkedin.com/in/anika-valluru-889731291/" target="_blank" class="btn-ghost">LinkedIn</a>
+      </div>
+      <div class="hero-stat-row">
+        <div class="stat">
+          <div class="stat-num">2<span>+</span></div>
+          <div class="stat-label">Years building</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">6<span>+</span></div>
+          <div class="stat-label">Projects shipped</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3<span></span></div>
+          <div class="stat-label">Certifications</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">M.S.<span></span></div>
+          <div class="stat-label">AI in progress</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-photo-col">
+      <div class="hero-photo">
+        <!-- Replace the div below with: <img src="your-photo.jpg" alt="Anika Valluru" /> -->
+        <img src="profile.png" alt="Anika Valluru" />
+      </div>
+      <div class="hero-name-tag">Anika Valluru</div>
+      <div class="hero-role-tag">AI Forward Engineer</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── ABOUT ─── -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">About Me</div>
+    <h2>Explorer. Builder.<br>Powered by curiosity.</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I'm a junior at NJIT completing a dual B.S./M.S. track in <strong>Information Technology and Artificial Intelligence</strong>. My work sits at the intersection of practical software engineering and intelligent systems — I care about building things that solve real problems, not demos.
+        </p>
+        <p>
+          At <strong>SHI International</strong>, I redesigned a CRM platform by automating routing workflows with AI, enabling data-driven prospecting for the sales team. That experience shaped how I think about AI: not as a technology to bolt on, but as a tool that can quietly make complex workflows dramatically smarter.
+        </p>
+        <p>
+          I'm moving toward <span class="highlight">AI Forward Engineering</span> — roles where I can design, build, and ship intelligent applications that make a measurable difference. I believe the best engineers in this field understand the business problem first and choose the right tool second.
+        </p>
+      </div>
+      <div class="about-cards reveal reveal-delay-1">
+        <div class="about-card">
+          <div class="card-icon">🎓</div>
+          <div>
+            <div class="card-title">NJIT — B.S./M.S. Program</div>
+            <div class="card-desc">B.S. Information Technology (Web Applications) + M.S. Artificial Intelligence · Expected May 2027 · Dean's List</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="card-icon">🌉</div>
+          <div>
+            <div class="card-title">Port Authority of NY & NJ — Incoming Intern</div>
+            <div class="card-desc">Joining the Engineering Solutions unit Summer 2026 to build AI enablement solutions using Microsoft Foundry & Copilot, and support cloud platforms across Azure, Trimble, and Kahua.</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="card-icon">🏆</div>
+          <div>
+            <div class="card-title">SHI International — Intern Award Winner</div>
+            <div class="card-desc">Won 2025 intern class presentations for AI-driven CRM redesign. Built real workflows in Power Platform + Dynamics 365.</div>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="card-icon">🤝</div>
+          <div>
+            <div class="card-title">Peer Mentor @ NJIT</div>
+            <div class="card-desc">Provided peer mentoring to fellow students through the YWCC program at NJIT, supporting academic and professional development in computing.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── PROJECTS ─── -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">Featured Projects</div>
+    <h2>Work that proves<br>the direction.</h2>
+
+    <!-- Featured: LLM Eval Framework — TOP -->
+    <div class="projects-grid" style="margin-top: 3rem;">
+      <div class="project-card featured reveal">
+        <div class="project-visual" style="background: linear-gradient(135deg, #0a1f1a 0%, #0d2b1f 100%);">
+          <div class="proj-icon" style="font-size:4rem; text-align:center; line-height:1.2;">🧪<br><span style="font-family:var(--font-mono);font-size:0.65rem;color:#34d399;letter-spacing:0.1em;">LLM · EVAL</span></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tag" style="background:rgba(52,211,153,0.12);color:#34d399;">⭐ Featured · Prompt Engineering</div>
+          <h3>AI LLM Evaluation Framework</h3>
+          <p>
+            Built a rubric-based evaluation system for systematically testing Claude AI outputs across three critical dimensions: safety, customer support quality, and structured output accuracy. The framework defines scoring criteria, runs prompts against the model, and grades responses — turning subjective "does this feel right?" into repeatable, measurable signal. Directly mirrors the evaluation pipelines used by AI labs to assess model behavior before deployment.
+          </p>
+          <div class="tech-stack">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">Claude API</span>
+            <span class="tech-pill">Prompt Engineering</span>
+            <span class="tech-pill">Rubric Design</span>
+            <span class="tech-pill">Safety Evaluation</span>
+            <span class="tech-pill">Structured Outputs</span>
+            <span class="tech-pill">LLM Testing</span>
+          </div>
+          <a href="https://github.com/AnikaValluru/LLM-EVAL-framework/tree/main/llm_eval_framework" target="_blank" class="project-link" style="color:#34d399;">View on GitHub →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured: Midterm + AI Toolkit side by side -->
+    <div class="projects-grid" style="margin-top: 2rem;">
+      <div class="project-card featured reveal">
+        <div class="project-visual" style="background: linear-gradient(135deg, #0D1526 0%, #162038 100%);">
+          <div class="proj-icon" style="font-size:4rem; text-align:center; line-height:1.2;">📊<br><span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--cyan);letter-spacing:0.1em;">DASHBOARD</span></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tag">⭐ Featured · Revised Midterm</div>
+          <h3>Is Car Ownership Worth It?</h3>
+          <p>
+            A data-driven decision tool that helps users evaluate the true cost of car ownership versus alternatives, broken down by region. Built around the insight that most people make this decision emotionally — not financially. The dashboard surfaces hidden costs (insurance, depreciation, parking) alongside commute mode comparisons to give users a real answer.
+          </p>
+          <div class="tech-stack">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">JavaScript</span>
+            <span class="tech-pill">Data Visualization</span>
+            <span class="tech-pill">Cost Modeling</span>
+            <span class="tech-pill">Regional APIs</span>
+            <span class="tech-pill">Interactive UI</span>
+          </div>
+          <a href="https://github.com/AnikaValluru?tab=repositories" target="_blank" class="project-link">GitHub Repo →</a>
+          <a href="https://anikavalluru.github.io/IS219Project/" target="_blank" class="project-link" style="margin-top:0.5rem;">Live Site →</a>
+        </div>
+      </div>
+
+      <div class="project-card featured reveal reveal-delay-1" style="margin-top: 0;">
+        <div class="project-visual" style="background: linear-gradient(135deg, #0a1628 0%, #0f2240 100%);">
+          <div class="proj-icon" style="font-size:4rem; text-align:center; line-height:1.2;">🧰<br><span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--teal);letter-spacing:0.1em;">AI TOOLKIT</span></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tag" style="background:rgba(45,212,191,0.12);color:var(--teal);">⭐ Featured · AI Engineering</div>
+          <h3>AI Toolkit</h3>
+          <p>
+            A hands-on exploration of modern AI tools and workflows — built to understand how LLMs, APIs, and automation layers fit together in real engineering contexts. Rather than following tutorials, this project is about figuring out what actually works: which tools compose well, where the friction is, and how to wire AI capabilities into practical developer workflows.
+          </p>
+          <div class="tech-stack">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">LLM APIs</span>
+            <span class="tech-pill">AI Workflows</span>
+            <span class="tech-pill">Prompt Engineering</span>
+            <span class="tech-pill">Automation</span>
+          </div>
+          <a href="https://github.com/AnikaValluru/IS219-AIToolkit" target="_blank" class="project-link">View on GitHub →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chocolate Sales ML -->
+    <div class="projects-grid" style="margin-top: 2rem;">
+      <div class="project-card featured reveal">
+        <div class="project-visual" style="background: linear-gradient(135deg, #0f1a2e 0%, #1a1230 100%);">
+          <div class="proj-icon" style="font-size:4rem; text-align:center; line-height:1.2;">🍫<br><span style="font-family:var(--font-mono);font-size:0.65rem;color:#a78bfa;letter-spacing:0.1em;">ML · FORECASTING</span></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa;">⭐ Featured · Machine Learning</div>
+          <h3>Forecasting Chocolate Sales</h3>
+          <p>
+            Applied four regression models — Linear Regression, RBF Network, Neural Network (MLP), and SVM — to predict chocolate sales revenue from 1,094 international transactions. The project went beyond basic modeling: comparing underfitting vs. overfitting across models, applying L1 regularization, 5-fold cross-validation, and early stopping to improve generalization. The Fast MLP Neural Network with early stopping achieved the best out-of-sample performance, while SVM delivered the most balanced generalization overall.
+          </p>
+          <div class="tech-stack">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">Scikit-learn</span>
+            <span class="tech-pill">Neural Networks (MLP)</span>
+            <span class="tech-pill">SVM</span>
+            <span class="tech-pill">RBF Network</span>
+            <span class="tech-pill">L1 Regularization</span>
+            <span class="tech-pill">k-Fold CV</span>
+            <span class="tech-pill">Matplotlib</span>
+          </div>
+          <a href="https://colab.research.google.com/drive/1VZflkzmRZWe5k-gje8IdzscPkNvsMTUt" target="_blank" class="project-link" style="color:#a78bfa;">View Notebook →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mini Projects -->
+    <div style="margin-top: 4rem;">
+      <div class="section-label reveal">More Work</div>
+      <div class="projects-mini">
+        <div class="mini-card reveal">
+          <div class="mini-icon">🐦</div>
+          <h4>Twitter Airline Sentiment Analysis</h4>
+          <p>NLP classification project analyzing passenger sentiment from airline tweets. Applied text preprocessing, feature extraction, and classification models to categorize positive, negative, and neutral feedback at scale.</p>
+          <a href="https://github.com/YashParlikar/twitter-airline-sentiment-analysis" target="_blank" class="project-link" style="margin-top:0.75rem;font-size:0.72rem;">View on GitHub →</a>
+        </div>
+        <div class="mini-card reveal reveal-delay-1">
+          <div class="mini-icon">🔗</div>
+          <h4>IT490 Systems Integration</h4>
+          <p>Capstone group project integrating distributed systems components — service communication, data flow, and cross-team architecture decisions across a full-stack environment.</p>
+          <a href="https://github.com/IT490-102SP26/Capstone-Group-06" target="_blank" class="project-link" style="margin-top:0.75rem;font-size:0.72rem;">View on GitHub →</a>
+        </div>
+        <div class="mini-card reveal reveal-delay-2">
+          <div class="mini-icon">🚗</div>
+          <h4>Django Car Showcase</h4>
+          <p>Full-stack Django application with admin features, user feedback, product listings, and car descriptions. Built with Python, Django ORM, and responsive templates.</p>
+          <a href="https://github.com/ksp231/218-Group-Project" target="_blank" class="project-link" style="margin-top:0.75rem;font-size:0.72rem;">View on GitHub →</a>
+        </div>
+        <div class="mini-card reveal">
+          <div class="mini-icon">🅿️</div>
+          <h4>NJIT Parking App</h4>
+          <p>UX-first Figma prototype for an NJIT parking application. Designed interactive user flows, sitemaps, and navigation hierarchy to improve campus mobility.</p>
+          <a href="https://www.figma.com/proto/cIuAHEMjaYHppGaMYaFHZK/Prototype?node-id=0-1&p=f&t=j4pb6qcPakDeLKUK-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1" target="_blank" class="project-link" style="margin-top:0.75rem;font-size:0.72rem;">View Prototype →</a>
+        </div>
+        <div class="mini-card reveal reveal-delay-1">
+          <div class="mini-icon">🛍️</div>
+          <h4>Sit Stay Spa — eCommerce</h4>
+          <p>Designed and launched a full eCommerce site for a pet grooming business using Wix. Handled product display, service pages, and brand identity.</p>
+          <a href="https://arv334.wixsite.com/sitstayspa" target="_blank" class="project-link" style="margin-top:0.75rem;font-size:0.72rem;">View Live Site →</a>
+        </div>
+        <div class="mini-card reveal reveal-delay-2">
+          <div class="mini-icon">📱</div>
+          <h4>Client-Server Sync App</h4>
+          <p>Built a Java + Android SDK client-server application for real-time data synchronization using sockets. Handled concurrency and state management.</p>
+          <a href="https://github.com/AnikaValluru/AndroidStudio_ClientServer" target="_blank" class="project-link" style="margin-top:0.75rem;font-size:0.72rem;">View on GitHub →</a>
+        </div>
+        <div class="mini-card reveal">
+          <div class="mini-icon">🍽️</div>
+          <h4>Gourmet Snack Store</h4>
+          <p>Full-stack sample storefront with functioning forms, PHP backend, SQL data layer, and XML data generation. Demonstrated end-to-end web app principles.</p>
+          <a href="https://github.com/AnikaValluru/IT202-arv33-Project" target="_blank" class="project-link" style="margin-top:0.75rem;font-size:0.72rem;">View on GitHub →</a>
+        </div>
+        <div class="mini-card reveal reveal-delay-1">
+          <div class="mini-icon">📖</div>
+          <h4>Bootstrap Recipe Site</h4>
+          <p>Responsive recipe website built with HTML, CSS, jQuery, and Bootstrap. Focused on clean layout, accessibility, and mobile-first design patterns.</p>
+          <a href="https://github.com/AnikaValluru/IS117--Project" target="_blank" class="project-link" style="margin-top:0.75rem;font-size:0.72rem;">GitHub →</a>
+          <a href="https://anikavalluru.github.io/IS117--Project/IS117-BootstrapStarterFilesV5/index.html" target="_blank" class="project-link" style="margin-top:0.4rem;font-size:0.72rem;">Live Site →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── SKILLS ─── -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">Skills & Tools</div>
+    <h2>What I work with.</h2>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Languages</div>
+        <div class="skill-list">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">C# / .NET</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">HTML / CSS</span>
+          <span class="skill-tag">PHP</span>
+          <span class="skill-tag">XML</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-1">
+        <div class="skill-group-title">AI & Automation</div>
+        <div class="skill-list">
+          <span class="skill-tag">Power Automate</span>
+          <span class="skill-tag">Copilot for Sales</span>
+          <span class="skill-tag">ChatGPT API</span>
+          <span class="skill-tag">Claude API</span>
+          <span class="skill-tag">Power BI</span>
+          <span class="skill-tag">Dynamics 365 AI</span>
+          <span class="skill-tag learning">LangChain ↗</span>
+          <span class="skill-tag learning">LLM Workflows ↗</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-2">
+        <div class="skill-group-title">Platforms & Frameworks</div>
+        <div class="skill-list">
+          <span class="skill-tag">Django</span>
+          <span class="skill-tag">Power Apps</span>
+          <span class="skill-tag">Dynamics 365</span>
+          <span class="skill-tag">Azure DevOps</span>
+          <span class="skill-tag">RESTful APIs</span>
+          <span class="skill-tag">RabbitMQ</span>
+          <span class="skill-tag">Android SDK</span>
+          <span class="skill-tag">Postman</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Design & UX</div>
+        <div class="skill-list">
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">UI Prototyping</span>
+          <span class="skill-tag">User Flows</span>
+          <span class="skill-tag">Photoshop</span>
+          <span class="skill-tag">Wix</span>
+          <span class="skill-tag">Bootstrap</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-1">
+        <div class="skill-group-title">Dev Tools</div>
+        <div class="skill-list">
+          <span class="skill-tag">Git / GitHub</span>
+          <span class="skill-tag">Visual Studio</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">MS SQL Server</span>
+          <span class="skill-tag">Linux / Ubuntu</span>
+          <span class="skill-tag">Scrum / Agile</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-2">
+        <div class="skill-group-title">Currently Exploring</div>
+        <div class="skill-list">
+          <span class="skill-tag learning">Vector Databases ↗</span>
+          <span class="skill-tag learning">Prompt Engineering ↗</span>
+          <span class="skill-tag learning">RAG Pipelines ↗</span>
+          <span class="skill-tag learning">FastAPI ↗</span>
+          <span class="skill-tag learning">AI Product Design ↗</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Certs -->
+    <div style="margin-top: 3.5rem;">
+      <div class="section-label reveal">Certifications</div>
+      <div class="cert-row reveal">
+        <div class="cert-chip">
+          <span class="cert-icon">🔷</span>
+          Microsoft Certified — Power Platform Fundamentals
+        </div>
+        <div class="cert-chip">
+          <span class="cert-icon">🐍</span>
+          PCEP — Certified Entry-Level Python Programmer
+        </div>
+        <div class="cert-chip">
+          <span class="cert-icon">📋</span>
+          CITI Program — Responsible Conduct of Research
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── EXPERIENCE ─── -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">Experience</div>
+    <h2>Where I've worked.</h2>
+
+    <div style="margin-top: 3rem;">
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-date">Summer 2026</div>
+          <div class="exp-company">Port Authority of NY & NJ</div>
+          <div class="exp-role">Engineering Solutions Intern</div>
+        </div>
+        <div class="exp-content">
+          <h3>AI Enablement & Engineering Systems</h3>
+          <p>
+            Joining the Engineering Solutions unit within the Engineering Operations Division — the team responsible for all technology infrastructure supporting construction project design and delivery. The work spans SharePoint intranet development, application testing and changes in .NET/C#/SQL/Power Apps, and cloud platform support across Trimble, Kahua, and Azure.
+          </p>
+          <p>
+            Most notably, working directly with the Process Automation team to identify and implement <strong style="color:var(--white)">AI enablement solutions</strong> using Microsoft Foundry and Copilot — applying the same AI-forward workflow thinking that defined my work at SHI, this time at infrastructure scale.
+          </p>
+          <span class="exp-badge">🔜 Incoming · Summer 2026</span>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-date">May 2025 – Dec 2025</div>
+          <div class="exp-company">SHI International</div>
+          <div class="exp-role">Software Engineer Intern</div>
+        </div>
+        <div class="exp-content">
+          <h3>AI-Driven CRM Redesign</h3>
+          <p>
+            Redesigned SHI's internal CRM platform by automating routing processes with AI, enabling data-driven decisions for the outbound sales team. Collaborated directly with stakeholders to identify UX gaps across different personas and built custom workflows in Power Apps, Power Automate, Power BI, and Dynamics 365.
+          </p>
+          <p>
+            Applied Scrum methodology across the full development cycle — sprint planning, daily standups, delivery. The project demonstrated how thoughtful AI integration can change how a sales team actually works, not just automate tasks.
+          </p>
+          <span class="exp-badge">🏆 Winner — 2025 Intern Class Presentations</span>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-date">Jan 2024 – Mar 2024</div>
+          <div class="exp-company">NJIT YWCC</div>
+          <div class="exp-role">Student Mentor</div>
+        </div>
+        <div class="exp-content">
+          <h3>Peer Mentor</h3>
+          <p>
+            Provided peer mentoring to fellow students through the YWCC program at NJIT, supporting academic and professional development in computing.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-inner">
+      <div class="section-label" style="justify-content: center;">Contact</div>
+      <h2>Let's build something<br>worth building.</h2>
+      <p>
+        I'm looking for AI-forward engineering roles, internships, and projects where I can contribute to something real. If you're working on intelligent tools, workflow automation, or AI-powered products — I'd love to connect.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:anikarvalluru@gmail.com" class="contact-link">
+          ✉ Email Me
+        </a>
+        <a href="https://www.linkedin.com/in/anika-valluru-889731291/" target="_blank" class="contact-link">
+          in LinkedIn
+        </a>
+        <a href="https://github.com/anikavalluru" target="_blank" class="contact-link">
+          ⌥ GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p>© 2026 <span>Anika Valluru</span> — AI Forward Engineer</p>
+  <p>Built with purpose. Hosted on <span>GitHub Pages</span>.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'var(--cyan)' : '';
+    });
+  });
+</script>
+</body>
+</html>
